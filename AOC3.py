@@ -9,8 +9,7 @@ with open(inputPath, 'r') as file:
 
 mul1 = None;
 mul2 = None;
-global numStr;
-numStr = "";
+
 
 dataBad = "mul(4*, mul(6,9!, ?(12,34),mul ( 2 , 4 )";
 dataGood = "mul(11,8)mul(8,5)";
@@ -32,6 +31,8 @@ def isNum(test):
     return ord(test) >= 48 and ord(test) <= 57;
 
 def validate(step, pos):
+    global numStr;
+    #numStr = "";
     print(data[pos]);
     if step == 1:
         if data[pos] == 'm':
@@ -56,7 +57,7 @@ def validate(step, pos):
             return False;
     elif step == 5:
         if isNum(data[pos]):
-            numStr += data[pos];
+            numStr = data[pos];
             return True;
         else:
             return False;
@@ -74,6 +75,7 @@ def validate(step, pos):
             numStr += data[pos];
             return True;
         elif data[pos] == ',':
+            testStep = 8;
             mul1 = int(numStr);
             return True;
         else:
@@ -85,7 +87,7 @@ def validate(step, pos):
             return False;
     elif step == 9:
         if isNum(data[pos]):
-            numStr += data[pos];
+            numStr = data[pos];
             return True;
         else:
             return False;
