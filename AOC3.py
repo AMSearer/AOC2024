@@ -111,7 +111,7 @@ def validate(step, pos):
             return False;
     elif step == 12:
         if data[pos] == ')':
-            total += mul1 * mul2;
+            total += (mul1 * mul2);
             pos += offset;
             testStep = 0;
             return True;
@@ -124,7 +124,7 @@ def validate(step, pos):
 
 
 
-while(it < max):
+while(it < max-1):
     valid = validate(testStep, it + offset);
     if(valid):
         #it += 1; # shouldn't be needed since using offset to advance
