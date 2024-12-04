@@ -14,11 +14,13 @@ global mul2;
 globalDict["mul1"] = None;
 globalDict["mul2"] = None;
 globalDict["total"] = 0;
+globalDict["do"] = True;
 
 
 dataBad = "mul(4*, mul(6,9!, ?(12,34),mul ( 2 , 4 )";
 dataGood = "mul(11,8)mul(8,5)";
 dataGood = "mul(620,236)mul(589,126)mul(260,42)mul(335,250)mul(422,738)mul(694,717)mul(417,219)mul(366,638)mul(773,126)";
+dataGood = "}mul(620,236)where()*@}!&[mul(589,126)]&^]mul(260,42)when() when()$ ?{/^*mul(335,250)>,@!<{when()+-$don't()*'^?+>>/%:mul(422,738),mul(694,717);~;%<[why()>@-mul(417,219)?&who(474,989){select()-{#mul(366,638)mul(773,126)/*";
 
 # data = dataGood;
 
@@ -67,6 +69,11 @@ def validate(step, pos):
     if step == 1:
         if data[pos] == 'm':
             return True;
+        elif data[pos] == 'd':
+            if data[pos:pos+4] == "do()":
+                globalDict["do"] = True;
+            elif data[pos:pos+7] == "don't()":
+                globalDict["do"] = False;
         else:
             return False;
         
@@ -129,7 +136,8 @@ def validate(step, pos):
             return True;
         elif data[pos] == ')':
             globalDict["mul2"] = int(numStr);
-            globalDict["total"] += globalDict["mul1"] * globalDict["mul2"]
+            if(globalDict["do"]):
+                globalDict["total"] += globalDict["mul1"] * globalDict["mul2"]
             # total += (mul1 * mul2);
             pos += offset;
             testStep = 0;
@@ -142,7 +150,8 @@ def validate(step, pos):
             return True;
         elif data[pos] == ')':
             globalDict["mul2"] = int(numStr);
-            globalDict["total"] += globalDict["mul1"] * globalDict["mul2"]
+            if(globalDict["do"]):
+                globalDict["total"] += globalDict["mul1"] * globalDict["mul2"]
             # total += (mul1 * mul2);
             pos += offset;
             testStep = 0;
@@ -153,7 +162,8 @@ def validate(step, pos):
         if data[pos] == ')':
             # total += (mul1 * mul2);
             globalDict["mul2"] = int(numStr);
-            globalDict["total"] += globalDict["mul1"] * globalDict["mul2"]
+            if(globalDict["do"]):
+                globalDict["total"] += globalDict["mul1"] * globalDict["mul2"]
             pos += offset;
             testStep = 0;
             return False;
