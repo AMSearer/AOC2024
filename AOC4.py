@@ -35,20 +35,50 @@ gDict = {"N":[(-3, 0), (-2, 0), (-1, 0)], "NE":[(-3, 3), (-2, 2), (-1, 1)], "E":
 
 search = ['S', 'A', 'M']
 
+# for aInd, a in enumerate(array2D, 0):
+#     for bInd, b in enumerate(a[0],0):
+#         for dir in gDict:
+#             # print(gDict[dir])
+#             if not (valid(aInd + gDict[dir][0][0], bInd + gDict[dir][0][1])):
+#                     continue # continue to next dir if furthest offset index is not valid
+#             elif( b == 'X'):
+#                 for n in range(0,3):
+#                     x = aInd + gDict[dir][n][0]
+#                     y = bInd + gDict[dir][n][1]
+#                     if( array2D[x][0][y] == search[n]):
+#                         if(n == 2): count += 1;
+#                         continue
+#                     else:
+#                         break
+
+searchX = [['S', 'M'], ['M', 'S']]
+searchDir = [[[-1, -1], [1, 1]],
+              [[-1, 1], [1, -1]]]
+
+firstFound = False
+
 for aInd, a in enumerate(array2D, 0):
     for bInd, b in enumerate(a[0],0):
-        for dir in gDict:
+        for dir in searchDir:
             # print(gDict[dir])
-            if not (valid(aInd + gDict[dir][0][0], bInd + gDict[dir][0][1])):
+            if not (valid(aInd + dir[0][0], bInd + dir[0][1])):
                     continue # continue to next dir if furthest offset index is not valid
-            elif( b == 'X'):
-                for n in range(0,3):
-                    x = aInd + gDict[dir][n][0]
-                    y = bInd + gDict[dir][n][1]
-                    if( array2D[x][0][y] == search[n]):
-                        if(n == 2): count += 1;
-                        continue
-                    else:
-                        break
+            elif not(valid(aInd + dir[1][0], bInd + dir[1][1])):
+                    continue
+            elif( b == 'A'):
+                x = aInd + dir[0][0]
+                y = bInd + dir[0][1]
+                w = aInd + dir[1][0]
+                z = bInd + dir[1][1]
+
+                for ele in searchX:
+                        if(array2D[x][0][y] == ele[0] and array2D[w][0][z] == ele[1]):
+                            if(firstFound): count+=1;
+                            firstFound = True
+                if not(firstFound):
+                     break
+
+
+        firstFound = False
 
 print(count)
