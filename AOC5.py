@@ -28,6 +28,7 @@ for ruleStr in rulesStr:
 
 updateValid = False;
 validUpdates = []
+invalidUpdates = []
 
 for update in updates:
     updateValid = True;
@@ -37,10 +38,10 @@ for update in updates:
                 if rule[0] in update[-1-idx:]:
                     # print("Rule ", rule[0], "|", rule[1], "violated by page ", page)
                     updateValid = False;
+                    invalidUpdates.append(update)
+                    break
     if updateValid:
         validUpdates.append([update[len(update) // 2], update]) 
-
-# print(validUpdates)   
 
 total = 0
 
