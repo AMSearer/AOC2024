@@ -11,19 +11,40 @@ with open(inputPath, 'r') as file:
 
     input = lines.split("\n\n")
 
-rules = input[0].split("\n")
+rulesStr = input[0].split("\n")
 updatesStr = (input[1].split("\n"))
 updates = []
-
-updates.append([[int(y) for y in x.split(',')] for x in updatesStr])
-
-# updates.append(x for x in updatesStr)
+rules = []
 
 for updateStr in updatesStr:
-    # updates.append(int(x) for x in updateStr.split(','))
-    # print(updateStr.split(','))
-    intList = [int(num) for num in updateStr.split(',')]
-    # print(intList)
+    updates.append([int(y) for y in updateStr.split(',')])
 
+for ruleStr in rulesStr:
+    rules.append([int(y) for y in ruleStr.split('|')])
 
-print(updates)
+# updates.append([[int(y) for y in x.split(',')] for x in updatesStr])
+
+# print(updates)
+
+updateValid = False;
+validUpdates = []
+
+for update in updates:
+    updateValid = True;
+    for idx, page in enumerate(update[-2::-1]):
+        for rule in rules:
+            if rule[1] == page:
+                if rule[0] in update[-1-idx:]:
+                    # print("Rule ", rule[0], "|", rule[1], "violated by page ", page)
+                    updateValid = False;
+    if updateValid:
+        validUpdates.append([update[len(update) // 2], update]) 
+
+# print(validUpdates)   
+
+total = 0
+
+for update in validUpdates:
+    total += update[0]
+
+print(total)
